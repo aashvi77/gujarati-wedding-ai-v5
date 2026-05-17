@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: gujarati-wedding-ai
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: pnpm install && pnpm --filter @workspace/api-server run build
+    startCommand: pnpm --filter @workspace/api-server run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        generateValue: false
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: AI_INTEGRATIONS_OPENAI_BASE_URL
+        sync: false
+      - key: AI_INTEGRATIONS_OPENAI_API_KEY
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true

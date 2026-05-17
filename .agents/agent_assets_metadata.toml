@@ -1,0 +1,38 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "XNDfP5EdVa9XekHiQM3kC"
+uri = "file://gujarati-wedding-ai.tar.gz"
+type = "unspecified"
+title = "Gujarati Wedding AI — Source Code"
+
+[[outputs]]
+id = "h5Nf_ItMcrT2fT25Ww_2Z"
+uri = "file://updated-files.tar.gz"
+type = "unspecified"
+title = "Updated Files (vite.config.ts + pnpm-workspace.yaml)"
+
+[[outputs]]
+id = "pH2buNfp9JCT1KjUEsm5c"
+uri = "file://gujarati-wedding-ai-latest.tar.gz"
+type = "unspecified"
+title = "Gujarati Wedding AI — Full Project (Latest)"
+
+[[outputs]]
+id = "U_UTp3If4LvA8Z-AGog01"
+uri = "file://gujarati-wedding-ai-v2.tar.gz"
+type = "unspecified"
+title = "Gujarati Wedding AI — Deploy-Ready (Latest)"
+
+[[outputs]]
+id = "pnylI9MFEeMyZ9XK44kpU"
+uri = "file://gujarati-wedding-ai-v3.tar.gz"
+type = "unspecified"
+title = "Gujarati Wedding AI — v3 (OpenAI Key Fix)"
+
+[[outputs]]
+id = "of43WkNm_8uamNctTb6gp"
+uri = "file://gujarati-wedding-ai-v4.tar.gz"
+type = "unspecified"
+title = "Gujarati Wedding AI — v4 (All Fixes)"
