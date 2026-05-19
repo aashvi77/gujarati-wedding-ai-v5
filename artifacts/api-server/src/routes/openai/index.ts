@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { eq } from "drizzle-orm";
 import { db, conversations, messages } from "@workspace/db";
-import { openai } from "@workspace/integrations-openai-ai-server";
+import { gemini } from "@workspace/integrations-openai-ai-server";
 import {
   CreateOpenaiConversationBody,
   SendOpenaiMessageBody,
@@ -189,29 +189,28 @@ router.post("/conversations/:id/messages", async (req, res) => {
       .where(eq(messages.conversationId, conversationId))
       .orderBy(messages.createdAt);
 
-    const chatMessages = [
-      { role: "system" as const, content: SYSTEM_PROMPT },
-      ...history.map((m) => ({
-        role: m.role as "user" | "assistant",
-        content: m.content,
-      })),
-    ];
-
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
 
     let fullResponse = "";
 
-    const stream = await openai.chat.completions.create({
-      model: "gpt-4o",
-      max_completion_tokens: 8192,
-      messages: chatMessages,
-      stream: true,
+    // Build Gemini chat history (all messages except the last user message)
+    const geminiHistory = history.slice(0, -1).map((m) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
+
+    const model = gemini.getGenerativeModel({
+      model: "gemini-1.5-flash",
+      systemInstruction: SYSTEM_PROMPT,
     });
 
-    for await (const chunk of stream) {
-      const content = chunk.choices[0]?.delta?.content;
+    const chat = model.startChat({ history: geminiHistory });
+    const result = await chat.sendMessageStream(userContent);
+
+    for await (const chunk of result.stream) {
+      const content = chunk.text();
       if (content) {
         fullResponse += content;
         res.write(`data: ${JSON.stringify({ content })}\n\n`);
