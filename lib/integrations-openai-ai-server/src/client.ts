@@ -1,9 +1,14 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
 
-const apiKey = process.env.GEMINI_API_KEY;
+// Support both Replit AI Integration vars and a standard OPENAI_API_KEY for self-hosting
+const apiKey =
+  process.env.AI_INTEGRATIONS_OPENAI_API_KEY ?? process.env.OPENAI_API_KEY;
+const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL ?? undefined;
 
 if (!apiKey) {
-  throw new Error("No Gemini API key found. Set GEMINI_API_KEY in your environment variables.");
+  throw new Error(
+    "No OpenAI API key found. Set OPENAI_API_KEY in your environment variables."
+  );
 }
 
-export const gemini = new GoogleGenerativeAI(apiKey);
+export const openai = new OpenAI({ apiKey, baseURL });
