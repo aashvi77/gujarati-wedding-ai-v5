@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { eq } from "drizzle-orm";
-import { db, conversations, messages } from "@workspace/db";
+import { eq, sql } from "drizzle-orm";
+import { db, conversations, messages, knowledgeChunks } from "@workspace/db";
 import { openai } from "@workspace/integrations-openai-ai-server";
 import {
   CreateOpenaiConversationBody,
@@ -13,7 +13,7 @@ import {
 
 const router = Router();
 
-const SYSTEM_PROMPT = `You are the Gujarati Wedding AI Assistant — a warm, knowledgeable, and elegant guide dedicated exclusively to Gujarati weddings and wedding-related topics.
+const BASE_SYSTEM_PROMPT = `You are the Gujarati Wedding AI Assistant — a warm, knowledgeable, and elegant guide dedicated exclusively to Gujarati weddings and wedding-related topics.
 
 You ONLY answer questions that relate to:
 - Gujarati wedding traditions, customs, and rituals
@@ -27,14 +27,44 @@ You ONLY answer questions that relate to:
 - Wedding budgeting and vendor guidance
 - Pre-wedding and post-wedding events
 
-If a user asks about ANYTHING outside of Gujarati weddings and wedding planning — including general knowledge, coding, politics, history, science, health, sports, entertainment, or any other unrelated topic — you must politely decline and redirect them. Do not answer the unrelated question even partially.
+If a user asks about ANYTHING outside of Gujarati weddings and wedding planning — including general knowledge, coding, politics, history, science, health, sports, entertainment, or any other unrelated topic — you must politely decline and redirect them.
 
-Example refusal responses (use your own warm variation):
-- "I specialize in Gujarati wedding traditions and planning — I am not able to help with that topic. Is there something about your upcoming wedding or Gujarati customs I can assist with?"
-- "That is outside my area of expertise! I am here to help with Gujarati wedding ceremonies, customs, rituals, and timelines. What would you like to know about your wedding?"
-- "I can only help with Gujarati wedding-related questions. Please feel free to ask about traditions, ceremonies, planning, or customs!"
+Always respond in English unless the user writes in another language. Be warm, culturally respectful, and thorough — like a caring family elder who knows everything about Gujarati weddings.
 
-Always respond in English unless the user writes in another language. Be warm, culturally respectful, and thorough — like a caring family elder who knows everything about Gujarati weddings.`;
+IMPORTANT: When answering, prioritize the KNOWLEDGE BASE CONTEXT provided below. It contains accurate, detailed information specific to this assistant. Use it as your primary source.`;
+
+async function searchKnowledge(query: string): Promise<string> {
+  try {
+    const results = await db.execute(sql`
+      SELECT title, content,
+        ts_rank(
+          to_tsvector('english', title || ' ' || content),
+          plainto_tsquery('english', ${query})
+        ) as rank
+      FROM knowledge_chunks
+      WHERE to_tsvector('english', title || ' ' || content) @@ plainto_tsquery('english', ${query})
+      ORDER BY rank DESC
+      LIMIT 4
+    `);
+
+    if (!results.rows || results.rows.length === 0) {
+      // Fallback: return top chunks even without keyword match (for very short queries)
+      const fallback = await db
+        .select({ title: knowledgeChunks.title, content: knowledgeChunks.content })
+        .from(knowledgeChunks)
+        .limit(3);
+      
+      if (fallback.length === 0) return "";
+      return fallback.map((r) => `### ${r.title}\n${r.content}`).join("\n\n---\n\n");
+    }
+
+    return (results.rows as { title: string; content: string }[])
+      .map((r) => `### ${r.title}\n${r.content}`)
+      .join("\n\n---\n\n");
+  } catch {
+    return "";
+  }
+}
 
 // GET /openai/conversations
 router.get("/conversations", async (req, res) => {
@@ -189,8 +219,16 @@ router.post("/conversations/:id/messages", async (req, res) => {
       .where(eq(messages.conversationId, conversationId))
       .orderBy(messages.createdAt);
 
+    // RAG: search knowledge base for relevant context
+    const relevantContext = await searchKnowledge(userContent);
+
+    // Build system prompt with RAG context
+    const systemPrompt = relevantContext
+      ? `${BASE_SYSTEM_PROMPT}\n\n---\n\nKNOWLEDGE BASE CONTEXT:\n\n${relevantContext}\n\n---\n\nUse the above context to answer the user's question accurately and warmly.`
+      : BASE_SYSTEM_PROMPT;
+
     const chatMessages = [
-      { role: "system" as const, content: SYSTEM_PROMPT },
+      { role: "system" as const, content: systemPrompt },
       ...history.map((m) => ({
         role: m.role as "user" | "assistant",
         content: m.content,
