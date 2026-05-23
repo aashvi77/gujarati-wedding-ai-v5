@@ -47,22 +47,27 @@ async function searchKnowledge(query: string): Promise<string> {
       FROM knowledge_chunks
       WHERE to_tsvector('english', title || ' ' || content) @@ plainto_tsquery('english', ${query})
       ORDER BY rank DESC
-      LIMIT 4
+      LIMIT 2
     `);
 
     if (!results.rows || results.rows.length === 0) {
-      // Fallback: return top chunks even without keyword match (for very short queries)
       const fallback = await db
         .select({ title: knowledgeChunks.title, content: knowledgeChunks.content })
         .from(knowledgeChunks)
-        .limit(3);
+        .limit(2);
       
       if (fallback.length === 0) return "";
-      return fallback.map((r) => `### ${r.title}\n${r.content}`).join("\n\n---\n\n");
+      return fallback.map((r) => {
+        const truncated = r.content.length > 1500 ? r.content.slice(0, 1500) + "..." : r.content;
+        return `### ${r.title}\n${truncated}`;
+      }).join("\n\n---\n\n");
     }
 
     return (results.rows as { title: string; content: string }[])
-      .map((r) => `### ${r.title}\n${r.content}`)
+      .map((r) => {
+        const truncated = r.content.length > 1500 ? r.content.slice(0, 1500) + "..." : r.content;
+        return `### ${r.title}\n${truncated}`;
+      })
       .join("\n\n---\n\n");
   } catch {
     return "";
@@ -246,7 +251,7 @@ router.post("/conversations/:id/messages", async (req, res) => {
 
     const stream = await openai.chat.completions.create({
       model: "llama-3.3-70b-versatile",
-      max_completion_tokens: 8192,
+      max_completion_tokens: 1024,
       messages: chatMessages,
       stream: true,
     });
