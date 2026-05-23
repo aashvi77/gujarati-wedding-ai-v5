@@ -58,14 +58,14 @@ async function searchKnowledge(query: string): Promise<string> {
       
       if (fallback.length === 0) return "";
       return fallback.map((r) => {
-        const truncated = r.content.length > 1500 ? r.content.slice(0, 1500) + "..." : r.content;
+        const truncated = r.content.length > 3000 ? r.content.slice(0, 3000) + "..." : r.content;
         return `### ${r.title}\n${truncated}`;
       }).join("\n\n---\n\n");
     }
 
     return (results.rows as { title: string; content: string }[])
       .map((r) => {
-        const truncated = r.content.length > 1500 ? r.content.slice(0, 1500) + "..." : r.content;
+        const truncated = r.content.length > 3000 ? r.content.slice(0, 3000) + "..." : r.content;
         return `### ${r.title}\n${truncated}`;
       })
       .join("\n\n---\n\n");
