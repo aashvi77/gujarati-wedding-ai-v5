@@ -68,7 +68,7 @@ export default function ChatPage() {
             <div
               className="absolute inset-0 z-0"
               style={{
-                backgroundImage: "url('/Gujarati_Wedding_Planner.png')",
+                backgroundImage: "url('/Gujarati_Wedding_Planner.jpg')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
