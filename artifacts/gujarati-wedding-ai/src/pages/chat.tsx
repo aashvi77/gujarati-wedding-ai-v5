@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useChat } from "@/hooks/use-chat";
 import { Send, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 const SUGGESTIONS = [
@@ -25,7 +24,6 @@ export default function ChatPage() {
     scrollToBottom();
   }, [messages, streamingMessage, isTyping]);
 
-  // Auto-resize textarea
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
     e.target.style.height = "auto";
@@ -54,7 +52,7 @@ export default function ChatPage() {
   const inChatMode = hasSentFirst;
 
   return (
-    <div className="flex flex-col h-[100dvh] bg-background font-sans overflow-hidden">
+    <div className="flex flex-col h-[100dvh] font-sans overflow-hidden relative">
       <AnimatePresence mode="wait">
         {!inChatMode ? (
           /* ─── LANDING STATE ─────────────────────────────── */
@@ -64,83 +62,107 @@ export default function ChatPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, y: -24 }}
             transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="flex flex-col items-center justify-center flex-1 px-4 py-12"
+            className="flex flex-col items-center justify-center flex-1 min-h-[100dvh] relative"
           >
-            {/* Decorative motif */}
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
-              className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mb-6 shadow-lg"
-            >
-              <span className="text-3xl text-primary-foreground select-none" style={{ fontFamily: "serif" }}>
-                ॐ
-              </span>
-            </motion.div>
+            {/* Background image */}
+            <div
+              className="absolute inset-0 z-0"
+              style={{
+                backgroundImage: "url('/Gujarati_Wedding_Planner.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}
+            />
 
-            <motion.h1
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15, duration: 0.45 }}
-              className="text-3xl sm:text-4xl font-bold font-serif text-foreground text-center leading-tight mb-3"
-            >
-              Gujarati Wedding Assistant
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.22, duration: 0.45 }}
-              className="text-muted-foreground text-center text-sm sm:text-base max-w-md mb-10 leading-relaxed"
-            >
-              Ask me about Gujarati wedding traditions, ceremonies, timelines, and customs
-            </motion.p>
-
-            {/* Input box */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.28, duration: 0.45 }}
-              className="w-full max-w-xl"
-            >
-              <div className="relative flex items-end bg-card border border-border rounded-2xl shadow-md px-4 py-3 gap-2 focus-within:ring-2 focus-within:ring-primary/40 transition-shadow">
-                <textarea
-                  ref={inputRef}
-                  rows={1}
-                  value={inputValue}
-                  onChange={handleInput}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Ask a question about Gujarati weddings..."
-                  className="flex-1 bg-transparent resize-none outline-none text-sm text-foreground placeholder:text-muted-foreground leading-relaxed py-1 max-h-40"
-                  style={{ height: "auto" }}
-                />
-                <button
-                  onClick={handleSubmit}
-                  disabled={!inputValue.trim()}
-                  className="shrink-0 w-9 h-9 rounded-xl bg-primary disabled:opacity-30 flex items-center justify-center transition-all active:scale-95 hover:brightness-110"
+            {/* Frosted glass card */}
+            <div className="relative z-10 w-full max-w-2xl mx-auto px-4 py-12 flex flex-col items-center">
+              <div
+                className="w-full rounded-3xl px-8 py-10 flex flex-col items-center"
+                style={{
+                  background: "rgba(255, 250, 244, 0.70)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  boxShadow: "0 8px 48px rgba(0,0,0,0.14)",
+                }}
+              >
+                {/* Logo */}
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
+                  className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mb-6 shadow-lg"
                 >
-                  <Send className="w-4 h-4 text-primary-foreground ml-0.5" />
-                </button>
+                  <span className="text-3xl text-primary-foreground select-none" style={{ fontFamily: "serif" }}>
+                    ॐ
+                  </span>
+                </motion.div>
+
+                <motion.h1
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15, duration: 0.45 }}
+                  className="text-3xl sm:text-4xl font-bold font-serif text-foreground text-center leading-tight mb-3"
+                >
+                  Gujarati Wedding Assistant
+                </motion.h1>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.22, duration: 0.45 }}
+                  className="text-muted-foreground text-center text-sm sm:text-base max-w-md mb-8 leading-relaxed"
+                >
+                  Ask me about Gujarati wedding traditions, ceremonies, timelines, and customs
+                </motion.p>
+
+                {/* Input box */}
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.28, duration: 0.45 }}
+                  className="w-full mb-4"
+                >
+                  <div className="relative flex items-end bg-white/80 border border-border rounded-2xl shadow-md px-4 py-3 gap-2 focus-within:ring-2 focus-within:ring-primary/40 transition-shadow">
+                    <textarea
+                      ref={inputRef}
+                      rows={1}
+                      value={inputValue}
+                      onChange={handleInput}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Ask a question about Gujarati weddings..."
+                      className="flex-1 bg-transparent resize-none outline-none text-sm text-foreground placeholder:text-muted-foreground leading-relaxed py-1 max-h-40"
+                      style={{ height: "auto" }}
+                    />
+                    <button
+                      onClick={handleSubmit}
+                      disabled={!inputValue.trim()}
+                      className="shrink-0 w-9 h-9 rounded-xl bg-primary disabled:opacity-30 flex items-center justify-center transition-all active:scale-95 hover:brightness-110"
+                    >
+                      <Send className="w-4 h-4 text-primary-foreground ml-0.5" />
+                    </button>
+                  </div>
+                </motion.div>
+
+                {/* Suggestion chips */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.36, duration: 0.45 }}
+                  className="grid grid-cols-2 gap-2 w-full"
+                >
+                  {SUGGESTIONS.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => handleSuggestion(s)}
+                      className="text-xs px-3 py-2.5 rounded-xl border border-border bg-white/70 text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-white/90 transition-all text-left leading-snug"
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </motion.div>
               </div>
-            </motion.div>
-
-            {/* Suggestion chips */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.36, duration: 0.45 }}
-              className="flex flex-wrap gap-2 justify-center mt-6 max-w-xl"
-            >
-              {SUGGESTIONS.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => handleSuggestion(s)}
-                  className="text-xs px-3 py-2 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-primary/5 transition-all"
-                >
-                  {s}
-                </button>
-              ))}
-            </motion.div>
+            </div>
           </motion.div>
         ) : (
           /* ─── CHAT STATE ─────────────────────────────────── */
@@ -149,7 +171,7 @@ export default function ChatPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="flex flex-col flex-1 min-h-0"
+            className="flex flex-col flex-1 min-h-0 bg-background"
           >
             {/* Header */}
             <header className="flex-none px-4 py-3 flex items-center justify-between bg-primary text-primary-foreground shadow-sm">
@@ -187,7 +209,6 @@ export default function ChatPage() {
                     </motion.div>
                   ))}
 
-                  {/* Typing / streaming bubble */}
                   {isTyping && (
                     <motion.div
                       key="typing"
