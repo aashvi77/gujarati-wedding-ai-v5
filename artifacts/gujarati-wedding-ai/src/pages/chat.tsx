@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useChat } from "@/hooks/use-chat";
 import { Send, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import bgImage from "/Gujarati_Wedding_Planner.png";
+
 
 const SUGGESTIONS = [
   "What happens during the Pithi ceremony?",
@@ -68,7 +68,7 @@ export default function ChatPage() {
             <div
               className="absolute inset-0 z-0"
               style={{
-                backgroundImage: `url(${bgImage})`,
+                backgroundImage: "url(/Gujarati_Wedding_Planner.jpg)",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
