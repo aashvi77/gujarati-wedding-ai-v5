@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useChat } from "@/hooks/use-chat";
 import { Send, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import bgImage from "/Gujarati_Wedding_Planner.jpg";
 
 const SUGGESTIONS = [
   "What happens during the Pithi ceremony?",
@@ -55,7 +56,6 @@ export default function ChatPage() {
     <div className="flex flex-col h-[100dvh] font-sans overflow-hidden relative">
       <AnimatePresence mode="wait">
         {!inChatMode ? (
-          /* ─── LANDING STATE ─────────────────────────────── */
           <motion.div
             key="landing"
             initial={{ opacity: 0 }}
@@ -68,7 +68,7 @@ export default function ChatPage() {
             <div
               className="absolute inset-0 z-0"
               style={{
-                backgroundImage: "url('/Gujarati_Wedding_Planner.jpg')",
+                backgroundImage: `url(${bgImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -173,7 +173,6 @@ export default function ChatPage() {
             transition={{ duration: 0.3 }}
             className="flex flex-col flex-1 min-h-0 bg-background"
           >
-            {/* Header */}
             <header className="flex-none px-4 py-3 flex items-center justify-between bg-primary text-primary-foreground shadow-sm">
               <h1 className="text-base font-semibold font-serif truncate">Gujarati Wedding Assistant</h1>
               <button
@@ -185,7 +184,6 @@ export default function ChatPage() {
               </button>
             </header>
 
-            {/* Messages */}
             <main className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
               <div className="max-w-2xl mx-auto space-y-4">
                 <AnimatePresence initial={false}>
@@ -239,7 +237,6 @@ export default function ChatPage() {
               </div>
             </main>
 
-            {/* Input bar */}
             <footer className="flex-none px-4 py-3 border-t bg-background">
               <div className="max-w-2xl mx-auto">
                 <div className="relative flex items-end bg-card border border-border rounded-2xl shadow-sm px-4 py-3 gap-2 focus-within:ring-2 focus-within:ring-primary/40 transition-shadow">
