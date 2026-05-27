@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useChat } from "@/hooks/use-chat";
 import { Send, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import bgImage from "/Gujarati_Wedding_Planner.jpg";
+import bgImage from "/Gujarati_Wedding_Planner.png";
 
 const SUGGESTIONS = [
   "What happens during the Pithi ceremony?",
