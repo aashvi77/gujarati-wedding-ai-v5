@@ -3,7 +3,7 @@ import { useChat } from "@/hooks/use-chat";
 import { Send, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const RED = "#8B1A1A";
+const RED = "#bd2f24";
 
 const SUGGESTIONS = [
   "What happens during the Pithi ceremony?",
@@ -85,7 +85,7 @@ export default function ChatPage() {
                   backdropFilter: "blur(20px)",
                   WebkitBackdropFilter: "blur(20px)",
                   boxShadow: "0 8px 48px rgba(0,0,0,0.14)",
-                  border: `2px solid ${RED}`,
+                  border: `9px solid ${RED}`,
                 }}
               >
                 {/* Logo */}
@@ -127,7 +127,7 @@ export default function ChatPage() {
                   className="w-full mb-4"
                 >
                   <div className="relative flex items-end bg-white/80 border border-border rounded-2xl shadow-md px-4 py-3 gap-2 transition-shadow"
-                    style={{ borderColor: "rgba(139,26,26,0.2)" }}
+                    style={{ borderColor: "rgba(189,47,36,0.2)" }}
                   >
                     <textarea
                       ref={inputRef}
@@ -161,8 +161,8 @@ export default function ChatPage() {
                     <button
                       key={s}
                       onClick={() => handleSuggestion(s)}
-                      className="text-xs px-3 py-2.5 rounded-xl bg-white/70 text-muted-foreground hover:text-foreground hover:bg-white/90 transition-all text-center leading-snug"
-                      style={{ border: `1px solid rgba(139,26,26,0.25)` }}
+                      className="text-xs px-3 py-2.5 rounded-xl bg-white/70 text-muted-foreground hover:text-foreground hover:bg-red-50 hover:border-red-400 transition-all text-center leading-snug"
+                      style={{ border: `1px solid rgba(189,47,36,0.25)` }}
                     >
                       {s}
                     </button>
@@ -234,7 +234,7 @@ export default function ChatPage() {
                               <motion.span
                                 key={k}
                                 className="w-2 h-2 rounded-full block"
-                                style={{ background: "rgba(139,26,26,0.4)" }}
+                                style={{ background: "rgba(189,47,36,0.4)" }}
                                 animate={{ y: [0, -5, 0] }}
                                 transition={{ repeat: Infinity, duration: 0.65, delay }}
                               />
@@ -253,7 +253,7 @@ export default function ChatPage() {
               <div className="max-w-2xl mx-auto">
                 <div
                   className="relative flex items-end bg-card border rounded-2xl shadow-sm px-4 py-3 gap-2 transition-shadow"
-                  style={{ borderColor: "rgba(139,26,26,0.2)" }}
+                  style={{ borderColor: "rgba(189,47,36,0.2)" }}
                 >
                   <textarea
                     ref={inputRef}
