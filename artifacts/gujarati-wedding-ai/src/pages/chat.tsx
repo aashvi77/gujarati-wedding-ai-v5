@@ -61,7 +61,7 @@ export default function ChatPage() {
             key="landing"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, y: -24 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: "easeInOut" }}
             className="flex flex-col items-center justify-center flex-1 min-h-[100dvh] relative"
           >
@@ -81,7 +81,7 @@ export default function ChatPage() {
               <div
                 className="w-full rounded-3xl px-16 py-8 flex flex-col items-center"
                 style={{
-                  background: "rgba(240, 233, 222, 0.70)",
+                  background: "rgba(255, 250, 244, 0.70)",
                   backdropFilter: "blur(20px)",
                   WebkitBackdropFilter: "blur(20px)",
                   boxShadow: "0 8px 48px rgba(0,0,0,0.14)",
@@ -107,7 +107,7 @@ export default function ChatPage() {
                   transition={{ delay: 0.15, duration: 0.45 }}
                   className="text-4xl sm:text-5xl font-bold font-serif text-foreground text-center leading-tight mb-3 whitespace-nowrap"
                 >
-                 AI Gujarati Wedding Assistant
+                  Gujarati Wedding Assistant
                 </motion.h1>
 
                 <motion.p
