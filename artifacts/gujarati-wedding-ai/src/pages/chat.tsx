@@ -107,7 +107,7 @@ export default function ChatPage() {
                   transition={{ delay: 0.15, duration: 0.45 }}
                   className="text-4xl sm:text-5xl font-bold font-serif text-foreground text-center leading-tight mb-3 whitespace-nowrap"
                 >
-                  Gujarati Wedding Assistant
+                 AI Gujarati Wedding Assistant
                 </motion.h1>
 
                 <motion.p
