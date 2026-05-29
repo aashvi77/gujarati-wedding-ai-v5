@@ -77,9 +77,9 @@ export default function ChatPage() {
             />
 
             {/* Frosted glass card */}
-            <div className="relative z-10 w-full max-w-2xl mx-auto px-4 py-12 flex flex-col items-center">
+            <div className="relative z-10 w-full max-w-3xl mx-auto px-4 py-16 flex flex-col items-center">
               <div
-                className="w-full rounded-3xl px-8 py-10 flex flex-col items-center"
+                className="w-full rounded-3xl px-12 py-14 flex flex-col items-center"
                 style={{
                   background: "rgba(255, 250, 244, 0.70)",
                   backdropFilter: "blur(20px)",
@@ -93,7 +93,7 @@ export default function ChatPage() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg"
+                  className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg"
                   style={{ background: RED }}
                 >
                   <span className="text-3xl text-white select-none" style={{ fontFamily: "serif" }}>
@@ -105,7 +105,7 @@ export default function ChatPage() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15, duration: 0.45 }}
-                  className="text-3xl sm:text-4xl font-bold font-serif text-foreground text-center leading-tight mb-3"
+                  className="text-4xl sm:text-5xl font-bold font-serif text-foreground text-center leading-tight mb-3"
                 >
                   Gujarati Wedding Assistant
                 </motion.h1>
@@ -114,7 +114,7 @@ export default function ChatPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.22, duration: 0.45 }}
-                  className="text-muted-foreground text-center text-sm sm:text-base max-w-md mb-8 leading-relaxed"
+                  className="text-muted-foreground text-center text-base sm:text-lg max-w-lg mb-10 leading-relaxed"
                 >
                   Ask me about Gujarati wedding traditions, ceremonies, timelines, and customs
                 </motion.p>
@@ -135,7 +135,7 @@ export default function ChatPage() {
                       value={inputValue}
                       onChange={handleInput}
                       onKeyDown={handleKeyDown}
-                      placeholder="Ask a question about Gujarati weddings..."
+                      placeholder="Ask a question about Gujarati weddings..." style={{ fontSize: "15px" }}
                       className="flex-1 bg-transparent resize-none outline-none text-sm text-foreground placeholder:text-muted-foreground leading-relaxed py-1 max-h-40"
                       style={{ height: "auto" }}
                     />
@@ -161,7 +161,7 @@ export default function ChatPage() {
                     <button
                       key={s}
                       onClick={() => handleSuggestion(s)}
-                      className="text-xs px-3 py-2.5 rounded-xl bg-white/70 text-muted-foreground hover:text-foreground hover:bg-red-50 hover:border-red-400 transition-all text-center leading-snug"
+                      className="text-sm px-4 py-3 rounded-xl bg-white/70 text-muted-foreground hover:text-foreground hover:bg-red-50 hover:border-red-400 transition-all text-center leading-snug"
                       style={{ border: `1px solid rgba(189,47,36,0.25)` }}
                     >
                       {s}
@@ -195,7 +195,7 @@ export default function ChatPage() {
             </header>
 
             <main className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
-              <div className="max-w-2xl mx-auto space-y-4">
+              <div className="max-w-3xl mx-auto space-y-4">
                 <AnimatePresence initial={false}>
                   {messages.map((msg, i) => (
                     <motion.div
@@ -250,7 +250,7 @@ export default function ChatPage() {
             </main>
 
             <footer className="flex-none px-4 py-3 border-t bg-background">
-              <div className="max-w-2xl mx-auto">
+              <div className="max-w-3xl mx-auto">
                 <div
                   className="relative flex items-end bg-card border rounded-2xl shadow-sm px-4 py-3 gap-2 transition-shadow"
                   style={{ borderColor: "rgba(189,47,36,0.2)" }}
