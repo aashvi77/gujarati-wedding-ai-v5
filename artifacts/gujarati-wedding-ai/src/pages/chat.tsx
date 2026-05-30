@@ -127,7 +127,7 @@ export default function ChatPage() {
                   className="w-full mb-4"
                 >
                   <div className="relative flex items-end bg-white/80 border border-border rounded-2xl shadow-md px-4 py-3 gap-2 transition-shadow"
-                    style={{ borderColor: "rgba(151,64,70,0.35)", borderWidth: "2px" }}
+                    style={{ borderColor: "rgba(151,64,70,0.6)", borderWidth: "3px" }}
                   >
                     <textarea
                       ref={inputRef}
@@ -161,8 +161,8 @@ export default function ChatPage() {
                     <button
                       key={s}
                       onClick={() => handleSuggestion(s)}
-                      className="text-sm px-4 py-3 rounded-xl bg-white/70 text-muted-foreground hover:text-foreground hover:bg-red-100 hover:border-red-600 transition-all text-center leading-snug"
-                      style={{ border: "2px solid rgba(151,64,70,0.3)" }}
+                      className="text-sm px-4 py-3 rounded-xl bg-white/70 text-muted-foreground hover:text-foreground hover:bg-red-200 hover:border-red-800 transition-all text-center leading-snug"
+                      style={{ border: "3px solid rgba(151,64,70,0.6)" }}
                     >
                       {s}
                     </button>
@@ -249,11 +249,11 @@ export default function ChatPage() {
               </div>
             </main>
 
-            <footer className="flex-none px-4 py-3 border-t bg-background">
+            <footer className="flex-none px-4 py-3 border-t" style={{ background: "#f0e9de" }}>
               <div className="max-w-5xl mx-auto">
                 <div
-                  className="relative flex items-end bg-card border rounded-2xl shadow-sm px-4 py-3 gap-2 transition-shadow"
-                  style={{ borderColor: "rgba(151,64,70,0.35)", borderWidth: "2px" }}
+                  className="relative flex items-end rounded-2xl shadow-sm px-4 py-3 gap-2 transition-shadow" style={{ background: "white", border: "3px solid rgba(151,64,70,0.6)" }}
+                  style={{ borderColor: "rgba(151,64,70,0.6)", borderWidth: "3px" }}
                 >
                   <textarea
                     ref={inputRef}
