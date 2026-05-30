@@ -81,7 +81,7 @@ export default function ChatPage() {
               <div
                 className="w-full rounded-3xl px-16 py-8 flex flex-col items-center"
                 style={{
-                  background: "rgba(255, 250, 244, 0.70)",
+                  background: "rgba(240, 233, 222, 0.85)",
                   backdropFilter: "blur(20px)",
                   WebkitBackdropFilter: "blur(20px)",
                   boxShadow: "0 8px 48px rgba(0,0,0,0.14)",
@@ -107,7 +107,7 @@ export default function ChatPage() {
                   transition={{ delay: 0.15, duration: 0.45 }}
                   className="text-4xl sm:text-5xl font-bold font-serif text-foreground text-center leading-tight mb-3 whitespace-nowrap"
                 >
-                  Gujarati Wedding Assistant
+                  AI Gujarati Wedding Assistant
                 </motion.h1>
 
                 <motion.p
@@ -135,7 +135,7 @@ export default function ChatPage() {
                       value={inputValue}
                       onChange={handleInput}
                       onKeyDown={handleKeyDown}
-                      placeholder="Ask a question about Gujarati weddings..." style={{ fontSize: "15px" }}
+                      placeholder="Ask a question about Gujarati weddings..."
                       className="flex-1 bg-transparent resize-none outline-none text-sm text-foreground placeholder:text-muted-foreground leading-relaxed py-1 max-h-40"
                       style={{ height: "auto" }}
                     />
@@ -178,13 +178,13 @@ export default function ChatPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="flex flex-col flex-1 min-h-0 bg-background"
+            className="flex flex-col flex-1 min-h-0" style={{ background: "#f0e9de" }}
           >
             <header
               className="flex-none px-4 py-3 flex items-center justify-between shadow-sm text-white"
               style={{ background: RED }}
             >
-              <h1 className="text-base font-semibold font-serif truncate">Gujarati Wedding Assistant</h1>
+              <h1 className="text-base font-semibold font-serif truncate">AI Gujarati Wedding Assistant</h1>
               <button
                 onClick={resetChat}
                 className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 transition-colors active:scale-95"
