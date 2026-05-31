@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import {
   useCreateOpenaiConversation,
   useListOpenaiMessages,
+  useListOpenaiConversations,
   getListOpenaiMessagesQueryKey,
   getListOpenaiConversationsQueryKey,
 } from "@workspace/api-client-react";
@@ -23,6 +24,8 @@ export function useChat() {
 
   const createConversation = useCreateOpenaiConversation();
 
+  const { data: conversations } = useListOpenaiConversations();
+
   const { data: dbMessages } = useListOpenaiMessages(conversationId!, {
     query: { enabled: !!conversationId && !isTyping },
   });
@@ -42,7 +45,6 @@ export function useChat() {
     async (content: string) => {
       setHasSentFirst(true);
 
-      // Lazily create a conversation on the very first message
       let currentId = conversationId;
       if (!currentId) {
         try {
@@ -57,7 +59,6 @@ export function useChat() {
         }
       }
 
-      // Optimistically append user message
       setLocalMessages((prev) => [
         ...prev,
         { id: Date.now(), role: "user", content },
@@ -109,7 +110,6 @@ export function useChat() {
       } catch {
         // ignore stream errors
       } finally {
-        // Commit the completed assistant message locally before DB sync
         if (accumulated) {
           setLocalMessages((prev) => [
             ...prev,
@@ -122,6 +122,7 @@ export function useChat() {
           queryClient.invalidateQueries({
             queryKey: getListOpenaiMessagesQueryKey(currentId),
           });
+          queryClient.invalidateQueries({ queryKey: getListOpenaiConversationsQueryKey() });
         }
       }
     },
@@ -136,6 +137,14 @@ export function useChat() {
     setHasSentFirst(false);
   }, []);
 
+  const loadConversation = useCallback(async (id: number) => {
+    setConversationId(id);
+    setHasSentFirst(true);
+    setLocalMessages([]);
+    setStreamingMessage("");
+    setIsTyping(false);
+  }, []);
+
   return {
     messages: localMessages,
     streamingMessage,
@@ -143,5 +152,8 @@ export function useChat() {
     hasSentFirst,
     sendMessage,
     resetChat,
+    loadConversation,
+    conversations: conversations ?? [],
+    activeConversationId: conversationId,
   };
 }
