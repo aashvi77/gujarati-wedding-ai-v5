@@ -78,11 +78,10 @@ export default function ChatPage() {
   return (
     <div className="flex h-[100dvh] font-sans overflow-hidden relative">
 
-      {/* ── SIDEBAR ── */}
+      {/* ── SIDEBAR — always available ── */}
       <AnimatePresence>
-        {sidebarOpen && inChatMode && (
+        {sidebarOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
@@ -92,7 +91,6 @@ export default function ChatPage() {
               onClick={() => setSidebarOpen(false)}
             />
 
-            {/* Sidebar panel */}
             <motion.div
               key="sidebar"
               initial={{ x: -280 }}
@@ -145,7 +143,7 @@ export default function ChatPage() {
                           ? "rgba(151,64,70,0.15)"
                           : "transparent",
                         border: activeConversationId === conv.id
-                          ? `1.5px solid rgba(151,64,70,0.4)`
+                          ? "1.5px solid rgba(151,64,70,0.4)"
                           : "1.5px solid transparent",
                         color: "#3a2020",
                       }}
@@ -194,6 +192,15 @@ export default function ChatPage() {
                   backgroundRepeat: "no-repeat",
                 }}
               />
+
+              {/* Hamburger button on landing page — top left */}
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="absolute top-4 left-4 z-10 p-2.5 rounded-xl text-white shadow-lg transition-all hover:brightness-110 active:scale-95"
+                style={{ background: RED }}
+              >
+                <Menu className="w-5 h-5" />
+              </button>
 
               {/* Frosted glass card */}
               <div className="relative z-10 w-full max-w-5xl mx-auto px-4 py-8 flex flex-col items-center">
@@ -301,7 +308,6 @@ export default function ChatPage() {
               className="flex flex-col flex-1 min-h-0"
               style={{ background: "#f0e9de" }}
             >
-              {/* Header */}
               <header
                 className="flex-none px-4 py-3 flex items-center justify-between shadow-sm text-white"
                 style={{ background: RED }}
@@ -324,7 +330,6 @@ export default function ChatPage() {
                 </button>
               </header>
 
-              {/* Messages */}
               <main className="flex-1 overflow-y-auto px-4 py-6">
                 <div className="max-w-2xl mx-auto space-y-4">
                   <AnimatePresence initial={false}>
@@ -387,7 +392,6 @@ export default function ChatPage() {
                 </div>
               </main>
 
-              {/* Input bar */}
               <footer
                 className="flex-none px-4 py-3 border-t"
                 style={{ background: "#f0e9de", borderColor: "rgba(151,64,70,0.2)" }}
