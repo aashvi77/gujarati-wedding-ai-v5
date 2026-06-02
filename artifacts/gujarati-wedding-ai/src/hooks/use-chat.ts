@@ -49,7 +49,7 @@ export function useChat() {
       if (!currentId) {
         try {
           const conv = await createConversation.mutateAsync({
-            data: { title: "New Conversation" },
+            data: { title: content.length > 50 ? content.slice(0, 50).trim() + "..." : content.trim() },
           });
           currentId = conv.id;
           setConversationId(conv.id);
